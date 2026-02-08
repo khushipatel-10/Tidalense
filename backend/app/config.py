@@ -8,3 +8,8 @@ class Settings:
     GEMINI_API_KEY: str = os.getenv("GEMINI_API_KEY", "")
     
 settings = Settings()
+
+if settings.GEMINI_API_KEY:
+    print("✅ Loaded GEMINI_API_KEY (Masked)")
+else:
+    print("❌ GEMINI_API_KEY not found in environment variables.")

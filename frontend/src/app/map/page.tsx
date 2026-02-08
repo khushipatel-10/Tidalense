@@ -43,8 +43,8 @@ export default function MapPage() {
             lon: -94.75,
             score: 85,
             status: "Critical",
-            note: "Heavy industrial activity detected near shipping channel.",
-            pollutants: ["Oil Residue", "Microplastics"]
+            note: "Heavy industrial runoff and high turbidity detected.",
+            pollutants: ["Oil Residue", "Chemical Runoff"]
         },
         {
             name: "Lake Houston",
@@ -52,7 +52,7 @@ export default function MapPage() {
             lon: -95.13,
             score: 30,
             status: "Safe",
-            note: "Water clarity is high. minimal particulate matter.",
+            note: "Water clarity is high. Minimal algal growth.",
             pollutants: ["None detection"]
         },
         {
@@ -71,7 +71,7 @@ export default function MapPage() {
             score: 92,
             status: "Critical",
             note: "Extremely high turbidity and likely fertilizer runoff.",
-            pollutants: ["Nitrates", "Microplastics", "Sediment"]
+            pollutants: ["Nitrates", "Algal Bloom", "Sediment"]
         },
     ];
 
@@ -224,10 +224,10 @@ export default function MapPage() {
                 <div className="p-6 border-b border-cyan-500/20 relative z-10">
                     <h1 className="text-lg font-black flex items-center gap-2 mb-1 uppercase tracking-tight text-white">
                         <MapPin className="text-cyan-400 w-5 h-5" />
-                        Target Map
+                        Water Quality Map
                     </h1>
                     <p className="text-cyan-100/60 text-xs font-mono">
-                        Global Optical Anomaly Monitoring
+                        Global Contamination Monitoring
                     </p>
                 </div>
 

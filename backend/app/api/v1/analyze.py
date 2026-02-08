@@ -20,6 +20,15 @@ class AnalyzeRequest(BaseModel):
 
 @router.post("/analyze")
 async def analyze_scan(request: AnalyzeRequest):
+    # 0. External Data (Parallelizable)
+    external_data = None
+    if request.geo_lat and request.geo_lon:
+        from app.services.usgs import fetch_usgs_water_data
+        try:
+            external_data = await fetch_usgs_water_data(request.geo_lat, request.geo_lon)
+        except Exception as e:
+            print(f"USGS Fetch Failed: {e}")
+
     # 1. Gemini Analysis
     gemini_result = await analyze_image_with_gemini(request.image_base64)
     
@@ -28,8 +37,12 @@ async def analyze_scan(request: AnalyzeRequest):
         request.optical_metrics.dict(), 
         gemini_result
     )
+
+    # 3. Algae Bloom Risk Analysis
+    from app.services.algae_risk import assess_algae_risk
+    algae_analysis = assess_algae_risk(external_data, gemini_result)
     
-    # 3. Construct Response
+    # 4. Construct Response
     return {
         "status": "success",
         "risk_score": risk_assessment["score"],
@@ -37,6 +50,7 @@ async def analyze_scan(request: AnalyzeRequest):
         "gemini_analysis": {
             "mode_detected": gemini_result.get("mode_detected", "Unknown"),
             "severity_level": gemini_result.get("severity_level", "Unknown"),
+            "brand_analysis": gemini_result.get("brand_analysis", {}),
             "reasoning": gemini_result.get("reasoning_short"),
             "visual_analysis": gemini_result.get("visual_analysis"),
             "score_breakdown": gemini_result.get("score_breakdown", []),
@@ -45,5 +59,7 @@ async def analyze_scan(request: AnalyzeRequest):
             "details": gemini_result.get("details"),
             "tags": gemini_result.get("tags")
         },
+        "external_data": external_data,
+        "algae_analysis": algae_analysis,
         "technical_breakdown": risk_assessment["breakdown"]
     }

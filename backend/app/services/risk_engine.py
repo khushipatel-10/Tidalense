@@ -6,12 +6,12 @@ def calculate_total_risk(
     geo_context: Dict[str, Any] = None
 ) -> Dict[str, Any]:
     """
-    Synthesize the final MicroPlastic Risk Index (MRI).
+    Synthesize the final Water Quality Risk Score.
     
     Weights:
     - Optical Turbidity/Variance (OpenCV): 30%
     - Edge Density (OpenCV): 20%
-    - Expert Reasoning (Gemini): 50%
+    - AI Expert Analysis (Gemini): 50%
     """
     
     # Normalize inputs

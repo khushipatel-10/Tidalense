@@ -18,13 +18,13 @@ export default function Home() {
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
                 </span>
-                SYSTEM ONLINE // READY TO SCAN
+                SYSTEM ONLINE // WATER QUALITY MONITOR
               </div>
               <h1 className="text-4xl font-black tracking-tighter sm:text-6xl xl:text-8xl/none bg-clip-text text-transparent bg-gradient-to-r from-white via-cyan-100 to-cyan-400 pb-2 drop-shadow-[0_0_15px_rgba(6,182,212,0.3)]">
-                Space Tech for<br />Local Waters.
+                AI-Powered<br />Water Quality.
               </h1>
               <p className="max-w-[600px] text-cyan-100/80 md:text-xl font-medium leading-relaxed">
-                We're using NASA satellite data to hunt down microplastics in your backyard. No lab coat required.
+                Detect contamination, assess water bodies, and verify container safety using advanced computer vision.
               </p>
               <div className="flex flex-col gap-3 min-[400px]:flex-row pt-6">
                 <Link
@@ -63,7 +63,7 @@ export default function Home() {
                   <div className="text-6xl font-black text-white mb-2 tracking-tighter tabular-nums text-transparent bg-clip-text bg-gradient-to-b from-white to-cyan-200">78<span className="text-3xl text-cyan-500/50">/100</span></div>
                   <div className="flex items-center justify-center gap-2 text-xs text-cyan-200 font-mono">
                     <span className="w-2 h-2 bg-red-500 animate-[pulse_0.5s_infinite]"></span>
-                    HIGH_RISK_DETECTED
+                    CONTAMINATION_DETECTED
                   </div>
                 </div>
               </div>
@@ -90,9 +90,9 @@ export default function Home() {
               <div className="mb-4 inline-flex items-center justify-center w-12 h-12 bg-cyan-500/10 text-cyan-400 group-hover:scale-110 transition-transform border border-cyan-500/20">
                 <Microscope className="h-6 w-6" />
               </div>
-              <h3 className="text-xl font-bold text-white mb-2 font-mono uppercase">Powered by NASA Data</h3>
+              <h3 className="text-xl font-bold text-white mb-2 font-mono uppercase">Multi-Factor Analysis</h3>
               <p className="text-sm text-slate-400 leading-relaxed">
-                We're building on top of Dr. Karl Kaiser's work at Texas A&M. Real science, hacked for speed.
+                Evaluating turbidity, color, and surface debris to detect algae, sediment, and chemical runoff.
               </p>
             </div>
 
@@ -101,9 +101,9 @@ export default function Home() {
               <div className="mb-4 inline-flex items-center justify-center w-12 h-12 bg-cyan-500/10 text-cyan-400 group-hover:scale-110 transition-transform border border-cyan-500/20">
                 <Waves className="h-6 w-6" />
               </div>
-              <h3 className="text-xl font-bold text-white mb-2 font-mono uppercase">Computer Vision Magic</h3>
+              <h3 className="text-xl font-bold text-white mb-2 font-mono uppercase">Potability Check</h3>
               <p className="text-sm text-slate-400 leading-relaxed">
-                Analyzing turbidity and spectral reflectance to flag risk zones instantly. It's not magic, it's <span className="text-cyan-400">math</span>.
+                Scan water bottles and containers for hygiene issues, seal integrity, and signs of material degradation.
               </p>
             </div>
 
@@ -112,9 +112,9 @@ export default function Home() {
               <div className="mb-4 inline-flex items-center justify-center w-12 h-12 bg-cyan-500/10 text-cyan-400 group-hover:scale-110 transition-transform border border-cyan-500/20">
                 <Map className="h-6 w-6" />
               </div>
-              <h3 className="text-xl font-bold text-white mb-2 font-mono uppercase">Community Scale</h3>
+              <h3 className="text-xl font-bold text-white mb-2 font-mono uppercase">Global Water Map</h3>
               <p className="text-sm text-slate-400 leading-relaxed">
-                Crowdsourcing the map of potential hotspots. We guide the pros to where they're needed most.
+                Crowdsourced data on hazardous water bodies. Helping communities stay safe from pollution.
               </p>
             </div>
           </div>
@@ -146,7 +146,7 @@ export default function Home() {
 
       <footer className="flex flex-col gap-4 sm:flex-row py-8 w-full shrink-0 items-center px-4 md:px-6 border-t border-slate-800 bg-black text-slate-500 text-xs font-mono">
         <p>
-          [SYSTEM] © 2026 MicroScan AI. TIDALHACK:26 BUILD.
+          [SYSTEM] © 2026 WaterTrace AI. TIDALHACK:26 BUILD.
         </p>
         <nav className="sm:ml-auto flex gap-6">
           <Link className="hover:text-cyan-400 transition-colors uppercase" href="#">

@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from 'react';
 import CameraView from '@/components/camera/CameraView';
 import { OpticalMetrics, processImage } from '@/lib/ai/opencv-processor';
-import { ArrowLeft, Upload, Camera, AlertTriangle, ShieldCheck, AlertCircle, Info, ChevronDown, ChevronUp } from 'lucide-react';
+import { ArrowLeft, Upload, Camera, AlertTriangle, ShieldCheck, AlertCircle, Info, ChevronDown, ChevronUp, Droplets } from 'lucide-react';
 import Image from 'next/image';
 import useOpenCV from '@/hooks/use-opencv';
 import CyberGrid from '@/components/ui/CyberGrid';
@@ -65,10 +65,26 @@ export default function ScanPage() {
         setMode('analyzing');
 
         const embeddings: number[] = [];
+        let lat: number | undefined;
+        let lon: number | undefined;
+
+        // 1. Get Location (with timeout)
+        try {
+            if ('geolocation' in navigator) {
+                const position = await new Promise<GeolocationPosition>((resolve, reject) => {
+                    navigator.geolocation.getCurrentPosition(resolve, reject, { timeout: 5000 });
+                });
+                lat = position.coords.latitude;
+                lon = position.coords.longitude;
+                console.log("Location captured:", lat, lon);
+            }
+        } catch (e) {
+            console.warn("Location access denied or failed:", e);
+        }
 
         try {
             const { analyzeScan } = await import('@/lib/api');
-            const result = await analyzeScan(capturedImage, metrics, embeddings);
+            const result = await analyzeScan(capturedImage, metrics, embeddings, lat, lon);
             setAnalysis(result);
             setMode('results');
         } catch (e) {
@@ -96,8 +112,8 @@ export default function ScanPage() {
                         </button>
                     )}
                     <h1 className="text-xl font-bold tracking-tight text-center flex-1 font-mono uppercase text-cyan-100/90">
-                        {mode === 'selection' ? "MicroPlastic Scout" :
-                            mode === 'results' ? "Risk Assessment" : "Scanner"}
+                        {mode === 'selection' ? "Water Quality Assistant" :
+                            mode === 'results' ? "Quality Assessment" : "Scanner"}
                     </h1>
                     <div className="w-6" /> {/* Spacer */}
                 </header>
@@ -118,7 +134,7 @@ export default function ScanPage() {
                             </div>
                             <h2 className="text-2xl font-black tracking-tight text-white uppercase">Start New Scan</h2>
                             <p className="text-cyan-100/60 max-w-sm mx-auto font-mono text-sm">
-                                Analyze water samples or products for microplastic risks using AI and computer vision.
+                                Analyze environmental water bodies or check container safety using AI.
                             </p>
                         </div>
 
@@ -251,6 +267,105 @@ export default function ScanPage() {
                                 <span>CRITICAL</span>
                             </div>
                         </div>
+
+                        {/* 1.5. REAL-TIME DATA (USGS) */}
+                        {analysis.external_data && (
+                            <div className="bg-cyan-950/20 border border-cyan-500/20 p-6 backdrop-blur-md relative overflow-hidden">
+                                <div className="absolute top-0 right-0 p-2 opacity-10">
+                                    <ShieldCheck className="w-12 h-12 text-cyan-400" />
+                                </div>
+                                <h3 className="font-bold text-cyan-400 uppercase font-mono mb-1 flex items-center gap-2">
+                                    <span className="w-2 h-2 bg-cyan-400 animate-pulse rounded-full"></span>
+                                    Live Station Data
+                                </h3>
+                                <p className="text-xs text-slate-500 mb-4 font-mono">
+                                    Source: {analysis.external_data.source} | Station: {analysis.external_data.station_name}
+                                </p>
+                                <div className="grid grid-cols-2 gap-4">
+                                    {Object.entries(analysis.external_data.parameters).map(([key, val]) => (
+                                        <div key={key} className="bg-slate-900/50 p-2 border border-cyan-500/10">
+                                            <span className="block text-[10px] text-slate-500 uppercase tracking-wider mb-1">{key}</span>
+                                            <span className="font-mono text-white text-sm font-bold">{String(val)}</span>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+
+                        {/* 1.5b HELPER: Algae Bloom Forecast */}
+                        {/* Only show if NOT a container AND user has algae data */}
+                        {analysis.algae_analysis &&
+                            analysis.gemini_analysis.mode_detected !== 'Container/Product' &&
+                            (analysis.algae_analysis.risk_score > 10 || analysis.algae_analysis.drivers.length > 0) && (
+                                <div className={`border p-6 backdrop-blur-md relative overflow-hidden
+                                ${analysis.algae_analysis.risk_level === 'Critical' ? 'bg-red-950/30 border-red-500/30' :
+                                        analysis.algae_analysis.risk_level === 'High' ? 'bg-orange-950/30 border-orange-500/30' :
+                                            'bg-green-950/20 border-green-500/20'}`}>
+
+                                    <div className="flex justify-between items-start mb-4">
+                                        <div>
+                                            <h3 className={`font-bold uppercase font-mono mb-1 flex items-center gap-2
+                                            ${analysis.algae_analysis.risk_level === 'Critical' ? 'text-red-400' :
+                                                    analysis.algae_analysis.risk_level === 'High' ? 'text-orange-400' : 'text-green-400'}`}>
+                                                <Droplets className="w-4 h-4" />
+                                                Algae Bloom Forecast
+                                            </h3>
+                                            <div className="text-2xl font-black text-white">
+                                                {analysis.algae_analysis.risk_level} Risk
+                                            </div>
+                                        </div>
+                                        <div className={`w-10 h-10 rounded-full flex items-center justify-center border
+                                        ${analysis.algae_analysis.risk_level === 'Critical' ? 'bg-red-500/20 border-red-500 text-red-500' :
+                                                analysis.algae_analysis.risk_level === 'High' ? 'bg-orange-500/20 border-orange-500 text-orange-500' : 'bg-green-500/20 border-green-500 text-green-500'}`}>
+                                            <AlertTriangle className="w-5 h-5" />
+                                        </div>
+                                    </div>
+
+                                    <p className="text-sm text-slate-300 mb-3 italic">
+                                        "{analysis.algae_analysis.action}"
+                                    </p>
+
+                                    {analysis.algae_analysis.drivers.length > 0 && (
+                                        <div className="space-y-1">
+                                            <span className="text-[10px] text-slate-500 uppercase tracking-widest font-bold">Key Drivers</span>
+                                            <div className="flex flex-wrap gap-2">
+                                                {analysis.algae_analysis.drivers.map((driver: string, i: number) => (
+                                                    <span key={i} className="text-xs bg-black/40 px-2 py-1 rounded border border-white/10 text-slate-200">
+                                                        {driver}
+                                                    </span>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                            )}
+
+                        {/* 1.6. BRAND ANALYSIS */}
+                        {analysis.gemini_analysis.brand_analysis?.detected && (
+                            <div className="bg-blue-950/20 border border-blue-500/20 p-6 backdrop-blur-md">
+                                <h3 className="font-bold text-blue-400 uppercase font-mono mb-3 flex items-center gap-2">
+                                    <AlertCircle className="w-4 h-4" />
+                                    Brand Safety Check
+                                </h3>
+                                <div className="space-y-2">
+                                    <div className="flex justify-between border-b border-blue-500/10 pb-2">
+                                        <span className="text-slate-400 text-sm">Detected Brand</span>
+                                        <span className="font-bold text-white font-mono">{analysis.gemini_analysis.brand_analysis.brand_name}</span>
+                                    </div>
+                                    <div className="flex justify-between border-b border-blue-500/10 pb-2">
+                                        <span className="text-slate-400 text-sm">Reputation</span>
+                                        <span className={`font-bold font-mono px-2 py-0.5 text-xs uppercase
+                                            ${analysis.gemini_analysis.brand_analysis.reputation === 'Safe' ? 'bg-green-500/20 text-green-400' :
+                                                analysis.gemini_analysis.brand_analysis.reputation === 'Caution' ? 'bg-yellow-500/20 text-yellow-400' : 'bg-slate-700 text-slate-300'}`}>
+                                            {analysis.gemini_analysis.brand_analysis.reputation}
+                                        </span>
+                                    </div>
+                                    <p className="text-xs text-blue-200/60 pt-2 leading-relaxed font-mono">
+                                        &gt; {analysis.gemini_analysis.brand_analysis.recall_info}
+                                    </p>
+                                </div>
+                            </div>
+                        )}
 
                         {/* 2. SUMMARY & DETAILS */}
                         <div className="bg-slate-900/80 border border-slate-700/50 p-6 backdrop-blur-md">

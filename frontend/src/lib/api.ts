@@ -6,6 +6,12 @@ export interface AnalysisResponse {
     gemini_analysis: {
         mode_detected?: string;
         severity_level?: string;
+        brand_analysis?: {
+            detected: boolean;
+            brand_name: string;
+            reputation: string;
+            recall_info: string;
+        };
         reasoning: string;
         visual_analysis?: string;
         score_breakdown?: {
@@ -17,6 +23,18 @@ export interface AnalysisResponse {
         recommendations?: string[];
         details: string;
         tags: string[];
+    };
+    external_data?: {
+        source: string;
+        station_name: string;
+        parameters: Record<string, string>;
+    } | null;
+    algae_analysis?: {
+        risk_score: number;
+        risk_level: string;
+        drivers: string[];
+        action: string;
+        details: string;
     };
     technical_breakdown: {
         turbidity_contribution: number;
@@ -30,7 +48,9 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
 export async function analyzeScan(
     imageBase64: string,
     metrics: OpticalMetrics,
-    embeddings: number[]
+    embeddings: number[],
+    lat?: number,
+    lon?: number
 ): Promise<AnalysisResponse> {
     try {
         const response = await fetch(`${API_URL}/api/v1/analyze`, {
@@ -41,7 +61,9 @@ export async function analyzeScan(
             body: JSON.stringify({
                 image_base64: imageBase64,
                 optical_metrics: metrics,
-                embeddings: embeddings
+                embeddings: embeddings,
+                geo_lat: lat,
+                geo_lon: lon
             }),
         });
 
