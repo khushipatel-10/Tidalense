@@ -16,7 +16,7 @@
 
 ## 🚀 Overview
 
-**Tidalense** (formerly MicroScan AI) is a cutting-edge platform designed to bring clarity to water quality at every scale. Whether you're tracking ocean currents across the globe or verifying the safety of the water bottle in your hand, Tidalense provides instant, AI-powered insights.
+**Tidalense** is a cutting-edge platform designed to bring clarity to water quality at every scale. Whether you're tracking ocean currents across the globe or verifying the safety of the water bottle in your hand, Tidalense provides instant, AI-powered insights.
 
 Our mission is to empower individuals and organizations with actionable data to make informed decisions about water safety and environmental health.
 
