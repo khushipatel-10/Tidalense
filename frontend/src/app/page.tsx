@@ -18,30 +18,33 @@ export default function Home() {
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
                 </span>
-                SYSTEM ONLINE // WATER QUALITY MONITOR
+                SYSTEM ONLINE // WATER QUALITY CORE
               </div>
-              <h1 className="text-4xl font-black tracking-tighter sm:text-6xl xl:text-8xl/none bg-clip-text text-transparent bg-gradient-to-r from-white via-cyan-100 to-cyan-400 pb-2 drop-shadow-[0_0_15px_rgba(6,182,212,0.3)]">
-                AI-Powered<br />Water Quality.
+              <h1 className="text-5xl font-black tracking-tighter sm:text-7xl xl:text-9xl/none bg-clip-text text-transparent bg-gradient-to-r from-white via-cyan-100 to-cyan-400 pb-4 drop-shadow-[0_0_15px_rgba(6,182,212,0.3)]">
+                Tidalense
               </h1>
+              <h2 className="text-2xl font-bold tracking-tight sm:text-4xl text-cyan-200 mb-4">
+                Global Tides. Personal Lens.
+              </h2>
               <p className="max-w-[600px] text-cyan-100/80 md:text-xl font-medium leading-relaxed">
-                Detect contamination, assess water bodies, and verify container safety using advanced computer vision.
+                Navigate global waters with satellite precision, then turn the lens inward to ensure your personal hydration is safe.
               </p>
               <div className="flex flex-col gap-3 min-[400px]:flex-row pt-6">
                 <Link
-                  href="/scan"
+                  href="/map"
                   className="inline-flex h-12 items-center justify-center rounded-none border border-cyan-400 bg-cyan-500/10 px-8 text-sm font-bold text-cyan-300 shadow-[0_0_20px_rgba(6,182,212,0.15)] transition-all hover:bg-cyan-500 hover:text-white hover:shadow-[0_0_30px_rgba(6,182,212,0.4)] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-cyan-400 uppercase tracking-wider relative overflow-hidden group"
                 >
                   <span className="relative z-10 flex items-center">
-                    Launch Scanner 
+                    Open Global Map
                     <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                   </span>
                   <div className="absolute inset-0 bg-cyan-500/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
                 </Link>
                 <Link
-                  href="/map"
+                  href="/scan"
                   className="inline-flex h-12 items-center justify-center rounded-none border border-white/20 bg-black/50 px-8 text-sm font-bold text-white shadow-sm transition-all hover:bg-white/10 hover:border-white/40 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white uppercase tracking-wider backdrop-blur-sm"
                 >
-                  Open Map
+                  Launch Scanner
                 </Link>
               </div>
             </div>
@@ -59,7 +62,7 @@ export default function Home() {
                 {/* Floating Card */}
                 <div className="text-center p-8 bg-black/60 backdrop-blur-xl border border-cyan-500/30 relative z-10 shadow-2xl">
                   <div className="absolute -top-1 -right-1 w-20 h-20 bg-cyan-500/20 blur-3xl rounded-full"></div>
-                  <p className="font-mono text-xs font-bold text-cyan-400 mb-2 tracking-widest uppercase">Target Locked ‼️</p>
+                  <p className="font-mono text-xs font-bold text-cyan-400 mb-2 tracking-widest uppercase">Region Analysis</p>
                   <div className="text-6xl font-black text-white mb-2 tracking-tighter tabular-nums text-transparent bg-clip-text bg-gradient-to-b from-white to-cyan-200">🤔<span className="text-3xl text-cyan-500/50">/100</span></div>
                   <div className="flex items-center justify-center gap-2 text-xs text-cyan-200 font-mono">
                     <span className="w-2 h-2 bg-red-500 animate-[pulse_0.5s_infinite]"></span>
@@ -77,14 +80,25 @@ export default function Home() {
         <div className="container px-4 md:px-6 mx-auto">
           <div className="flex flex-col items-center justify-center space-y-4 text-center mb-16">
             <h2 className="text-3xl font-black tracking-tighter sm:text-5xl uppercase text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]">
-              How It Works
+              Sense the Sea. Scan the Source.
             </h2>
             <p className="max-w-[700px] text-cyan-100/60 md:text-lg/relaxed leading-relaxed font-mono">
-              Leveraging advanced computer vision to decode optical signatures.
+              From tracking vast ocean currents to verifying your water bottle, Tidalense provides clarity at every scale.
             </p>
           </div>
 
           <div className="mx-auto grid max-w-6xl items-start gap-8 sm:grid-cols-2 md:gap-12 lg:grid-cols-3">
+            <div className="group p-6 bg-cyan-950/10 border border-cyan-500/10 hover:border-cyan-400/50 hover:bg-cyan-900/10 transition-all duration-300 relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+              <div className="mb-4 inline-flex items-center justify-center w-12 h-12 bg-cyan-500/10 text-cyan-400 group-hover:scale-110 transition-transform border border-cyan-500/20">
+                <Map className="h-6 w-6" />
+              </div>
+              <h3 className="text-xl font-bold text-white mb-2 font-mono uppercase">Global Water Map</h3>
+              <p className="text-sm text-slate-400 leading-relaxed">
+                Crowdsourced data on hazardous water bodies. Helping communities stay safe from pollution.
+              </p>
+            </div>
+
             <div className="group p-6 bg-cyan-950/10 border border-cyan-500/10 hover:border-cyan-400/50 hover:bg-cyan-900/10 transition-all duration-300 relative overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
               <div className="mb-4 inline-flex items-center justify-center w-12 h-12 bg-cyan-500/10 text-cyan-400 group-hover:scale-110 transition-transform border border-cyan-500/20">
@@ -104,17 +118,6 @@ export default function Home() {
               <h3 className="text-xl font-bold text-white mb-2 font-mono uppercase">Potability Check</h3>
               <p className="text-sm text-slate-400 leading-relaxed">
                 Scan water bottles and containers for hygiene issues, seal integrity, and signs of material degradation.
-              </p>
-            </div>
-
-            <div className="group p-6 bg-cyan-950/10 border border-cyan-500/10 hover:border-cyan-400/50 hover:bg-cyan-900/10 transition-all duration-300 relative overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-              <div className="mb-4 inline-flex items-center justify-center w-12 h-12 bg-cyan-500/10 text-cyan-400 group-hover:scale-110 transition-transform border border-cyan-500/20">
-                <Map className="h-6 w-6" />
-              </div>
-              <h3 className="text-xl font-bold text-white mb-2 font-mono uppercase">Global Water Map</h3>
-              <p className="text-sm text-slate-400 leading-relaxed">
-                Crowdsourced data on hazardous water bodies. Helping communities stay safe from pollution.
               </p>
             </div>
           </div>
@@ -146,7 +149,7 @@ export default function Home() {
 
       <footer className="flex flex-col gap-4 sm:flex-row py-8 w-full shrink-0 items-center px-4 md:px-6 border-t border-slate-800 bg-black text-slate-500 text-xs font-mono">
         <p>
-          [SYSTEM] © 2026 WaterTrace AI. TIDALHACK:26 BUILD.
+          [SYSTEM] © 2026 Tidalense. TIDALHACK:26 BUILD.
         </p>
         <nav className="sm:ml-auto flex gap-6">
           <Link className="hover:text-cyan-400 transition-colors uppercase" href="#">

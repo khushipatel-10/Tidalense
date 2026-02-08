@@ -65,7 +65,7 @@ const generateDynamicDetails = (name: string, score: number) => {
     const algaeScore = Math.floor(score * 0.7 + (rng() * 30));
     const algaeLevel = algaeScore > 60 ? "Critical" : algaeScore > 40 ? "High" : algaeScore > 20 ? "Moderate" : "Low";
     const algaeDrivers = [];
-    if (temp > 24) algaeDrivers.push(`High Water Temp (${temp}°C)`);
+    if (parseFloat(temp) > 24) algaeDrivers.push(`High Water Temp (${temp}°C)`);
     if (turbidity > 60) algaeDrivers.push("High Turbidity");
     if (algaeScore > 40 && algaeDrivers.length === 0) algaeDrivers.push("Nutrient Load");
 
@@ -346,10 +346,25 @@ function DetailsContent() {
                                 }
                             </p>
                             <div className="flex gap-3">
-                                <button className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-md text-xs font-semibold transition-colors">
+                                <button
+                                    onClick={() => window.print()}
+                                    className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-md text-xs font-semibold transition-colors">
                                     Download Report
                                 </button>
-                                <button className="flex-1 bg-white hover:bg-zinc-100 text-zinc-900 py-2 rounded-md text-xs font-semibold transition-colors">
+                                <button
+                                    onClick={() => {
+                                        if (navigator.share) {
+                                            navigator.share({
+                                                title: `Water Quality Report: ${name}`,
+                                                text: `Check out the water quality analysis for ${name}. Risk Score: ${score}/100.`,
+                                                url: window.location.href,
+                                            }).catch(console.error);
+                                        } else {
+                                            navigator.clipboard.writeText(window.location.href);
+                                            alert('Link copied to clipboard!');
+                                        }
+                                    }}
+                                    className="flex-1 bg-white hover:bg-zinc-100 text-zinc-900 py-2 rounded-md text-xs font-semibold transition-colors">
                                     Share
                                 </button>
                             </div>

@@ -175,7 +175,9 @@ export default function AlgaeDashboard({ data }: AlgaeDashboardProps) {
                             </li>
                         ))}
                     </ul>
-                    <button className="w-full mt-6 bg-white/5 hover:bg-white/10 text-white border border-white/10 rounded-lg py-2 text-xs font-semibold transition-colors">
+                    <button
+                        onClick={() => window.print()}
+                        className="w-full mt-6 bg-white/5 hover:bg-white/10 text-white border border-white/10 rounded-lg py-2 text-xs font-semibold transition-colors">
                         Generate PDF Report
                     </button>
                 </div>

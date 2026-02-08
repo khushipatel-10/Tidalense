@@ -1,4 +1,4 @@
-// Optical Processing Logic for MicroScan AI
+// Optical Processing Logic for Tidalense
 // Implements: LAB Color Conversion, Canny Edge Detection, Morphology
 
 export interface OpticalMetrics {

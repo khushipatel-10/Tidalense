@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "MicroScan AI",
-  description: "Community-scale microplastic risk screening inspired by ocean color remote sensing.",
+  title: "Tidalense | Global Tides. Personal Lens.",
+  description: "From tracking ocean currents to verifying your water bottle, Tidalense provides clarity at every scale.",
 };
 
 export default function RootLayout({
