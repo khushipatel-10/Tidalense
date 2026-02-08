@@ -4,7 +4,8 @@ import { useState, useRef, useCallback } from 'react';
 import Map, { Marker, Popup, NavigationControl, Layer, Source, FillLayer, MapRef } from 'react-map-gl/mapbox';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import Link from 'next/link';
-import { ShieldAlert, MapPin, Info, Navigation, Droplets } from 'lucide-react';
+import { ShieldAlert, MapPin, Info, Navigation, Droplets, ArrowLeft } from 'lucide-react';
+import CyberGrid from '@/components/ui/CyberGrid';
 
 // Mock Data for Demo (unchanged)
 const MOCK_RISK_POINTS = [
@@ -16,13 +17,13 @@ const MOCK_RISK_POINTS = [
 
 const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_TOKEN || 'pk.eyJ1IjoiZGVtb2NoYXAiLCJhIjoiY2t5Z3h6ZWY5MDB4ODJ2b3JtZmYyYm1iNyJ9.Ze2Z_w9b2e08_999999999';
 
-// Pastel Blue Water Layer Style
+// Cyan Water Layer Style
 const waterLayer: FillLayer = {
     id: 'water-layer',
     type: 'fill',
     paint: {
-        'fill-color': '#489ac0', // Pastel Blue
-        'fill-opacity': 0.8
+        'fill-color': '#06b6d4', // Cyan-500
+        'fill-opacity': 0.3
     }
 };
 
@@ -216,32 +217,35 @@ export default function MapPage() {
     };
 
     return (
-        <main className="flex h-screen w-full bg-zinc-950 text-white pt-16">
+        <main className="flex h-screen w-full bg-slate-950 text-white pt-16 font-sans">
             {/* SIDEBAR */}
-            <aside className="w-80 h-full bg-zinc-900 border-r border-zinc-800 flex flex-col z-20 shadow-xl">
-                <div className="p-6 border-b border-zinc-800">
-                    <h1 className="text-xl font-bold flex items-center gap-2 mb-1">
-                        <MapPin className="text-blue-500" />
-                        Community Risk Map
+            <aside className="w-80 h-full bg-slate-900 border-r border-cyan-900/50 flex flex-col z-20 shadow-xl relative overflow-hidden">
+                <CyberGrid />
+                <div className="absolute inset-0 bg-slate-900/90 -z-10"></div>
+
+                <div className="p-6 border-b border-cyan-500/20 relative z-10">
+                    <h1 className="text-lg font-black flex items-center gap-2 mb-1 uppercase tracking-tight text-white">
+                        <MapPin className="text-cyan-400 w-5 h-5" />
+                        Target Map
                     </h1>
-                    <p className="text-zinc-400 text-xs">
-                        Monitor optical anomalies in local waterways.
+                    <p className="text-cyan-100/60 text-xs font-mono">
+                        Global Optical Anomaly Monitoring
                     </p>
                 </div>
 
-                <div className="p-4 flex-1 overflow-y-auto space-y-6">
+                <div className="p-4 flex-1 overflow-y-auto space-y-6 relative z-10">
                     {/* Search */}
                     <div className="space-y-2">
-                        <label className="text-xs font-semibold text-zinc-500 uppercase tracking-wider">Search Location</label>
+                        <label className="text-xs font-bold text-cyan-500 uppercase tracking-widest font-mono">Search Sector</label>
                         <form onSubmit={handleSearch} className="relative">
                             <input
                                 type="text"
                                 placeholder="Search city, river, or bay..."
-                                className="w-full bg-zinc-950 border border-zinc-700 rounded-md py-2 pl-3 pr-10 text-sm text-white focus:outline-none focus:border-blue-500 transition-colors"
+                                className="w-full bg-slate-950/50 border border-slate-700 rounded-none py-2 pl-3 pr-10 text-sm text-white focus:outline-none focus:border-cyan-500 transition-colors placeholder:text-slate-600 font-mono"
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
                             />
-                            <button type="submit" className="absolute right-2 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-white">
+                            <button type="submit" className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-500 hover:text-cyan-400 transition-colors">
                                 <MapPin className="w-4 h-4" />
                             </button>
                         </form>
@@ -251,34 +255,34 @@ export default function MapPage() {
                     <div>
                         <button
                             onClick={handleLocateMe}
-                            className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md text-sm font-medium transition-colors"
+                            className="w-full flex items-center justify-center gap-2 bg-slate-800 hover:bg-slate-700 border border-slate-600 hover:border-cyan-500/50 text-white py-2 px-4 rounded-none text-sm font-bold uppercase tracking-wide transition-all"
                         >
-                            <Navigation className="w-4 h-4" />
-                            Use Current Location
+                            <Navigation className="w-4 h-4 text-cyan-400" />
+                            Locate Me
                         </button>
                     </div>
 
                     {/* Example Locations */}
                     <div className="space-y-3">
-                        <label className="text-xs font-semibold text-zinc-500 uppercase tracking-wider">Monitor Watchlist</label>
+                        <label className="text-xs font-bold text-cyan-500 uppercase tracking-widest font-mono">Priority Targets</label>
                         <div className="flex flex-col gap-2">
                             {EXAMPLE_LOCATIONS.map((loc) => (
                                 <button
                                     key={loc.name}
                                     onClick={() => handleLocationSelect(loc)}
-                                    className="text-left p-3 rounded-lg border border-zinc-800 bg-zinc-950/50 hover:bg-zinc-800 hover:border-zinc-700 transition-all group"
+                                    className="text-left p-3 rounded-none border border-slate-800 bg-slate-950/30 hover:bg-cyan-950/20 hover:border-cyan-500/30 transition-all group"
                                 >
                                     <div className="flex justify-between items-start mb-1">
-                                        <span className="font-medium text-sm text-zinc-200 group-hover:text-white">{loc.name}</span>
-                                        <span className={`text-[10px] px-1.5 py-0.5 rounded font-bold uppercase ${loc.status === 'Critical' ? 'bg-red-500/20 text-red-400' :
+                                        <span className="font-bold text-sm text-slate-200 group-hover:text-cyan-100 font-mono">{loc.name}</span>
+                                        <span className={`text-[10px] px-1.5 py-0.5 rounded-none font-bold uppercase ${loc.status === 'Critical' ? 'bg-red-500/20 text-red-400' :
                                             loc.status === 'High' ? 'bg-yellow-500/20 text-yellow-400' :
                                                 'bg-green-500/20 text-green-400'
                                             }`}>
                                             {loc.score}
                                         </span>
                                     </div>
-                                    <div className="flex items-center gap-1.5 text-xs text-zinc-500">
-                                        <div className={`w-1.5 h-1.5 rounded-full ${loc.status === 'Critical' ? 'bg-red-500' :
+                                    <div className="flex items-center gap-1.5 text-xs text-slate-500 group-hover:text-slate-400">
+                                        <div className={`w-1.5 h-1.5 rounded-full ${loc.status === 'Critical' ? 'bg-red-500 animate-pulse' :
                                             loc.status === 'High' ? 'bg-yellow-500' :
                                                 'bg-green-500'
                                             }`}></div>
@@ -290,13 +294,17 @@ export default function MapPage() {
                     </div>
                 </div>
 
-                <div className="p-4 border-t border-zinc-800 text-xs text-zinc-600 text-center">
-                    Data updated: 2 mins ago
+                <div className="p-4 border-t border-cyan-900/30 text-[10px] text-slate-500 text-center font-mono uppercase relative z-10 bg-slate-900/80">
+                    [SYSTEM] Data Stream: LIVE
                 </div>
             </aside>
 
             {/* MAP CONTAINER */}
             <div className="flex-1 w-full h-full relative">
+                <Link href="/" className="absolute top-4 left-4 z-30 p-2 bg-black/60 text-white hover:text-cyan-400 border border-white/10 backdrop-blur-md transition-colors rounded-none">
+                    <ArrowLeft className="w-6 h-6" />
+                </Link>
+
                 <Map
                     ref={mapRef}
                     {...viewState}
@@ -332,11 +340,11 @@ export default function MapPage() {
                             }}
                         >
                             <div
-                                className={`w-6 h-6 rounded-full border-2 border-white shadow-lg cursor-pointer transform hover:scale-125 transition-transform flex items-center justify-center
-                  ${point.score > 70 ? 'bg-red-500 shadow-red-500/50' : point.score > 40 ? 'bg-yellow-500 shadow-yellow-500/50' : 'bg-green-500 shadow-green-500/50'}
+                                className={`w-6 h-6 rounded-none border-2 border-white shadow-[0_0_10px_rgba(0,0,0,0.5)] cursor-pointer transform hover:scale-125 transition-transform flex items-center justify-center rotate-45
+                  ${point.score > 70 ? 'bg-red-500' : point.score > 40 ? 'bg-yellow-500' : 'bg-cyan-500'}
                 `}
                             >
-                                {point.score > 70 && <ShieldAlert className="w-3 h-3 text-white" />}
+                                {point.score > 70 && <ShieldAlert className="w-3 h-3 text-white -rotate-45" />}
                             </div>
                         </Marker>
                     ))}
@@ -348,39 +356,39 @@ export default function MapPage() {
                             longitude={popupInfo.lon}
                             latitude={popupInfo.lat}
                             onClose={() => setPopupInfo(null)}
-                            className="text-black z-50"
+                            className="text-black z-50 text-left"
                             closeButton={true}
                             closeOnClick={false}
                         >
                             <div className="p-3 min-w-[220px]">
                                 <div className="flex justify-between items-start mb-2 border-b border-zinc-200 pb-2">
-                                    <h3 className="font-bold text-base flex items-center gap-1.5">
-                                        {popupInfo.isWaterBody && <Droplets className="w-4 h-4 text-blue-500" />}
+                                    <h3 className="font-bold text-base flex items-center gap-1.5 uppercase font-mono">
+                                        {popupInfo.isWaterBody && <Droplets className="w-4 h-4 text-cyan-600" />}
                                         {popupInfo.name || popupInfo.city}
                                     </h3>
-                                    <span className={`text-xs px-2 py-0.5 rounded-full font-bold text-white uppercase tracking-wider
-                      ${popupInfo.score > 70 ? 'bg-red-500' : popupInfo.score > 40 ? 'bg-yellow-500' : 'bg-green-500'}
-                   `}>
+                                    <span className={`text-[10px] px-2 py-0.5 rounded-none font-bold text-white uppercase tracking-wider
+                       ${popupInfo.score > 70 ? 'bg-red-500' : popupInfo.score > 40 ? 'bg-yellow-500' : 'bg-cyan-500'}
+                    `}>
                                         {popupInfo.status || (popupInfo.score > 90 ? 'Critical' : popupInfo.score > 50 ? 'High' : 'Safe')}
                                     </span>
                                 </div>
 
                                 <div className="space-y-2">
                                     <div className="flex justify-between items-center text-sm font-medium">
-                                        <span className="text-zinc-500">Risk Score</span>
-                                        <span className={popupInfo.score > 60 ? 'text-red-600' : 'text-green-600'}>
+                                        <span className="text-zinc-500 font-mono text-xs uppercase">Risk Score</span>
+                                        <span className={`font-mono font-bold ${popupInfo.score > 60 ? 'text-red-600' : 'text-cyan-600'}`}>
                                             {popupInfo.score}/100
                                         </span>
                                     </div>
 
-                                    <p className="text-xs text-zinc-600 leading-relaxed bg-zinc-50 p-2 rounded">
+                                    <p className="text-xs text-zinc-600 leading-relaxed bg-zinc-50 p-2 border border-zinc-200">
                                         {popupInfo.note}
                                     </p>
 
-                                    {popupInfo.polls && (
+                                    {popupInfo.pollutants && (
                                         <div className="flex gap-1 flex-wrap">
                                             {popupInfo.pollutants.map((p: string) => (
-                                                <span key={p} className="text-[10px] bg-red-100 text-red-600 px-1.5 py-0.5 rounded">
+                                                <span key={p} className="text-[10px] bg-red-50 text-red-600 px-1.5 py-0.5 border border-red-100 uppercase tracking-tight">
                                                     {p}
                                                 </span>
                                             ))}
@@ -388,14 +396,14 @@ export default function MapPage() {
                                     )}
                                 </div>
 
-                                <div className="text-[10px] text-zinc-400 mt-2 flex items-center gap-1 justify-center">
+                                <div className="text-[10px] text-zinc-400 mt-2 flex items-center gap-1 justify-center font-mono">
                                     <Info className="w-3 h-3" />
-                                    {popupInfo.isWaterBody ? 'Estimated via Hydraulic Modeling' : 'Valid Optical Scan Data'}
+                                    {popupInfo.isWaterBody ? 'Hydraulic Model Est.' : 'Optical Scan Data'}
                                 </div>
 
                                 <Link
                                     href={`/map/details?name=${encodeURIComponent(popupInfo.name || '')}&score=${popupInfo.score}&status=${popupInfo.status}&note=${encodeURIComponent(popupInfo.note || '')}`}
-                                    className="block mt-3 w-full text-center bg-blue-600 hover:bg-blue-700 text-white text-xs py-2 rounded font-medium transition-colors"
+                                    className="block mt-3 w-full text-center bg-cyan-600 hover:bg-cyan-700 text-white text-xs py-2 font-bold uppercase tracking-wider transition-colors"
                                 >
                                     View Detailed Analysis
                                 </Link>
@@ -404,13 +412,10 @@ export default function MapPage() {
                     )}
                 </Map>
 
-                {/* LOCATE ME BUTTON (Moved to sidebar, kept here for mobile potentially or removed) */}
-                {/* Removed floating Locate Me as it is now in sidebar */}
-
                 {/* Token Warning */}
                 {!process.env.NEXT_PUBLIC_MAPBOX_TOKEN && (
-                    <div className="absolute bottom-10 left-4 bg-red-900/80 text-white p-2 text-xs rounded border border-red-500 backdrop-blur">
-                        Mapbox Token Missing. Map may not load in demo.
+                    <div className="absolute bottom-10 left-4 bg-red-900/80 text-white p-2 text-xs border border-red-500 backdrop-blur font-mono">
+                        WARNING: Mapbox Token Missing.
                     </div>
                 )}
             </div>
