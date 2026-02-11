@@ -8,8 +8,6 @@
   <b>Real-Time Water Quality Analysis & Global Monitoring System</b>
 </p>
 
-[Features](#features) • [Tech Stack](#tech-stack) • [Getting Started](#getting-started) • [Deployment](#deployment)
-
 ---
 
 </div>
