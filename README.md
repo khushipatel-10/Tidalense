@@ -57,7 +57,6 @@ Follow these steps to set up the project locally.
 
 - **Node.js** (v18+ recommended)
 - **Python** (v3.10+)
-- **MongoDB** (Local or Atlas URI)
 
 ### Installation
 
